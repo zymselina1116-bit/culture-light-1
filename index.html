@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoetrope Lantern - Shadow Theatre</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Panel Creator Screen -->
+        <div id="creator-screen" class="screen active">
+            <div class="container">
+                <h1 class="title">Create My Lantern</h1>
+                <p class="subtitle">Draw or generate a silhouette for your shadow theatre</p>
+
+                <div class="panel-creator">
+                    <div class="canvas-container">
+                        <canvas id="draw-canvas" width="300" height="400"></canvas>
+                        <div class="canvas-overlay" id="canvas-instructions">
+                            Click and drag to draw your silhouette
+                        </div>
+                    </div>
+
+                    <div class="creator-controls">
+                        <div class="mode-selector">
+                            <button class="mode-btn active" data-mode="draw">
+                                <span class="icon">✏️</span>
+                                Draw
+                            </button>
+                            <button class="mode-btn" data-mode="generate">
+                                <span class="icon">✨</span>
+                                Auto-Generate
+                            </button>
+                        </div>
+
+                        <div id="draw-controls" class="mode-controls active">
+                            <label>
+                                Brush Size
+                                <input type="range" id="brush-size" min="5" max="50" value="20">
+                                <span id="brush-size-value">20px</span>
+                            </label>
+                            <button id="clear-btn" class="secondary-btn">Clear Canvas</button>
+                        </div>
+
+                        <div id="generate-controls" class="mode-controls">
+                            <label>
+                                Pattern Type
+                                <select id="pattern-type">
+                                    <option value="dancer">Dancing Figure</option>
+                                    <option value="bird">Flying Bird</option>
+                                    <option value="tree">Tree & Leaves</option>
+                                    <option value="geometric">Geometric</option>
+                                    <option value="abstract">Abstract</option>
+                                </select>
+                            </label>
+                            <button id="generate-btn" class="secondary-btn">Generate Pattern</button>
+                        </div>
+
+                        <button id="build-lantern-btn" class="primary-btn">Build Lantern</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lantern Display Screen -->
+        <div id="lantern-screen" class="screen">
+            <div class="lantern-container">
+                <canvas id="lantern-canvas"></canvas>
+
+                <div class="controls-panel">
+                    <h3>Lantern Controls</h3>
+
+                    <div class="control-group">
+                        <label>
+                            <span class="control-label">Rotation Speed</span>
+                            <input type="range" id="rotation-speed" min="0" max="100" value="30">
+                            <span class="control-value" id="rotation-speed-value">30</span>
+                        </label>
+                    </div>
+
+                    <div class="control-group">
+                        <label>
+                            <span class="control-label">Lantern Size</span>
+                            <input type="range" id="lantern-size" min="50" max="150" value="100">
+                            <span class="control-value" id="lantern-size-value">100%</span>
+                        </label>
+                    </div>
+
+                    <div class="control-group">
+                        <label>
+                            <span class="control-label">Light Intensity</span>
+                            <input type="range" id="light-intensity" min="0" max="100" value="80">
+                            <span class="control-value" id="light-intensity-value">80%</span>
+                        </label>
+                    </div>
+
+                    <div class="control-group">
+                        <label>
+                            <span class="control-label">Number of Panels</span>
+                            <input type="range" id="panel-count" min="6" max="12" value="8">
+                            <span class="control-value" id="panel-count-value">8</span>
+                        </label>
+                    </div>
+
+                    <div class="control-group toggle-group">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="light-toggle" checked>
+                            <span class="toggle-switch"></span>
+                            <span class="control-label">Light On/Off</span>
+                        </label>
+                    </div>
+
+                    <button id="back-to-creator" class="secondary-btn">← Edit Design</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
