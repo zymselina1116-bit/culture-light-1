@@ -95,145 +95,6 @@ class PanelCreator {
         this.brushSize = size;
     }
 
-    generatePattern(type) {
-        this.clear();
-        this.ctx.fillStyle = '#000000';
-
-        switch(type) {
-            case 'dancer':
-                this.generateDancer();
-                break;
-            case 'bird':
-                this.generateBird();
-                break;
-            case 'tree':
-                this.generateTree();
-                break;
-            case 'geometric':
-                this.generateGeometric();
-                break;
-            case 'abstract':
-                this.generateAbstract();
-                break;
-        }
-
-        this.hasDrawn = true;
-    }
-
-    generateDancer() {
-        const cx = this.canvas.width / 2;
-        const cy = this.canvas.height / 2;
-
-        this.ctx.beginPath();
-        this.ctx.arc(cx, cy - 100, 20, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.fillRect(cx - 10, cy - 80, 20, 80);
-        this.ctx.save();
-        this.ctx.translate(cx - 10, cy - 60);
-        this.ctx.rotate(-Math.PI / 3);
-        this.ctx.fillRect(0, -5, 50, 10);
-        this.ctx.restore();
-        this.ctx.save();
-        this.ctx.translate(cx + 10, cy - 60);
-        this.ctx.rotate(Math.PI / 4);
-        this.ctx.fillRect(0, -5, 45, 10);
-        this.ctx.restore();
-        this.ctx.save();
-        this.ctx.translate(cx - 10, cy);
-        this.ctx.rotate(-Math.PI / 6);
-        this.ctx.fillRect(-5, 0, 10, 60);
-        this.ctx.restore();
-        this.ctx.save();
-        this.ctx.translate(cx + 10, cy);
-        this.ctx.rotate(Math.PI / 6);
-        this.ctx.fillRect(-5, 0, 10, 60);
-        this.ctx.restore();
-    }
-
-    generateBird() {
-        const cx = this.canvas.width / 2;
-        const cy = this.canvas.height / 2;
-
-        this.ctx.beginPath();
-        this.ctx.ellipse(cx, cy, 30, 20, 0, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.beginPath();
-        this.ctx.arc(cx + 25, cy - 10, 15, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.beginPath();
-        this.ctx.moveTo(cx + 38, cy - 10);
-        this.ctx.lineTo(cx + 50, cy - 5);
-        this.ctx.lineTo(cx + 38, cy - 5);
-        this.ctx.closePath();
-        this.ctx.fill();
-        this.ctx.beginPath();
-        this.ctx.moveTo(cx - 5, cy);
-        this.ctx.quadraticCurveTo(cx - 50, cy - 60, cx - 70, cy - 50);
-        this.ctx.quadraticCurveTo(cx - 60, cy - 40, cx - 20, cy + 5);
-        this.ctx.closePath();
-        this.ctx.fill();
-    }
-
-    generateTree() {
-        const cx = this.canvas.width / 2;
-        const cy = this.canvas.height;
-
-        this.ctx.fillRect(cx - 15, cy - 150, 30, 150);
-        this.ctx.beginPath();
-        this.ctx.moveTo(cx, cy - 250);
-        this.ctx.lineTo(cx - 80, cy - 150);
-        this.ctx.lineTo(cx + 80, cy - 150);
-        this.ctx.closePath();
-        this.ctx.fill();
-    }
-
-    generateGeometric() {
-        const cx = this.canvas.width / 2;
-        const cy = this.canvas.height / 2;
-
-        for (let i = 0; i < 4; i++) {
-            const size = 150 - i * 35;
-            const sides = 3 + i;
-            this.ctx.beginPath();
-            for (let j = 0; j <= sides; j++) {
-                const angle = (j / sides) * Math.PI * 2 - Math.PI / 2;
-                const x = cx + Math.cos(angle) * size;
-                const y = cy + Math.sin(angle) * size;
-                if (j === 0) {
-                    this.ctx.moveTo(x, y);
-                } else {
-                    this.ctx.lineTo(x, y);
-                }
-            }
-            if (i % 2 === 0) {
-                this.ctx.fill();
-            } else {
-                this.ctx.lineWidth = 20;
-                this.ctx.stroke();
-            }
-        }
-    }
-
-    generateAbstract() {
-        const cx = this.canvas.width / 2;
-        const cy = this.canvas.height / 2;
-
-        for (let i = 0; i < 8; i++) {
-            const startX = cx + (Math.random() - 0.5) * 200;
-            const startY = cy + (Math.random() - 0.5) * 300;
-            this.ctx.beginPath();
-            this.ctx.moveTo(startX, startY);
-            for (let j = 0; j < 5; j++) {
-                const cpX = startX + (Math.random() - 0.5) * 100;
-                const cpY = startY + (Math.random() - 0.5) * 100;
-                const endX = startX + (Math.random() - 0.5) * 80;
-                const endY = startY + (Math.random() - 0.5) * 80;
-                this.ctx.quadraticCurveTo(cpX, cpY, endX, endY);
-            }
-            this.ctx.closePath();
-            this.ctx.fill();
-        }
-    }
 
     getImageData() {
         return this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
@@ -451,72 +312,102 @@ class LanternRenderer {
     }
 
     renderShadow() {
-        const shadowScale = 2.5; // Large shadow
+        const shadowScale = 2.5;
         const shadowX = this.wallX + 250;
         const shadowY = this.canvas.height / 2;
 
-        // Collect visible panels
+        // Speed-based blur intensity
+        const velocityBlur = Math.abs(this.rotationVelocity) * 200;
+        const baseBlur = 8;
+        const totalBlur = Math.min(25, baseBlur + velocityBlur);
+
+        // Collect ALL visible panels for multi-layered shadows
         const shadowPanels = [];
         for (let i = 0; i < this.panelCount; i++) {
             const angle = (i / this.panelCount) * Math.PI * 2 + this.rotation;
+            const x = Math.cos(angle) * 30;
             const z = Math.sin(angle) * 30;
 
-            if (z > -15) { // Panel facing forward
+            // Include panels facing forward or sideways
+            if (z > -20) {
+                // Calculate depth-based properties
+                const depthFactor = (z + 20) / 50;
+                const opacity = 0.6 + depthFactor * 0.2; // 0.6 to 0.8 range
+
+                // Soft grey tones based on depth
+                const greyValue = Math.floor(58 + depthFactor * 32); // #3a to #5a
+                const shadowColor = `rgb(${greyValue}, ${greyValue}, ${greyValue})`;
+
                 shadowPanels.push({
                     angle,
+                    x,
                     z,
-                    x: Math.cos(angle) * 30
+                    opacity: Math.max(0.6, Math.min(0.8, opacity)),
+                    color: shadowColor,
+                    scale: shadowScale + depthFactor * 0.2
                 });
             }
         }
 
-        // Draw crisp black shadows
+        // Sort by depth (back to front)
+        shadowPanels.sort((a, b) => a.z - b.z);
+
+        // Create shadow silhouette from FULL user drawing
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = this.panelImage.width;
+        tempCanvas.height = this.panelImage.height;
+        const tempCtx = tempCanvas.getContext('2d');
+
+        // Draw full image
+        tempCtx.drawImage(this.panelImage, 0, 0);
+
+        // Convert to soft grey silhouette
+        const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+        const shadowData = tempCtx.createImageData(tempCanvas.width, tempCanvas.height);
+
+        for (let i = 0; i < imageData.data.length; i += 4) {
+            const brightness = (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3;
+            if (brightness < 128 && imageData.data[i + 3] > 0) {
+                // Soft grey instead of pure black
+                shadowData.data[i] = 58; // #3a3a3a
+                shadowData.data[i + 1] = 58;
+                shadowData.data[i + 2] = 58;
+                shadowData.data[i + 3] = imageData.data[i + 3];
+            }
+        }
+
+        tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+        tempCtx.putImageData(shadowData, 0, 0);
+
+        // Draw multiple overlapping shadows with blur
         this.ctx.save();
 
         for (const panel of shadowPanels) {
-            // Create shadow from panel image
-            const tempCanvas = document.createElement('canvas');
-            const panelWidth = this.panelImage.width / this.panelCount;
-            tempCanvas.width = panelWidth;
-            tempCanvas.height = this.panelImage.height;
-            const tempCtx = tempCanvas.getContext('2d');
+            this.ctx.save();
 
-            // Extract panel portion
-            tempCtx.drawImage(
-                this.panelImage,
-                0, 0, this.panelImage.width, this.panelImage.height,
-                0, 0, panelWidth, this.panelImage.height
-            );
+            // Apply Gaussian blur
+            this.ctx.filter = `blur(${totalBlur}px)`;
+            this.ctx.globalAlpha = panel.opacity;
 
-            // Convert to pure black silhouette
-            const imageData = tempCtx.getImageData(0, 0, panelWidth, this.panelImage.height);
-            const shadowData = tempCtx.createImageData(panelWidth, this.panelImage.height);
+            const shadowWidth = tempCanvas.width * panel.scale;
+            const shadowHeight = tempCanvas.height * panel.scale;
 
-            for (let i = 0; i < imageData.data.length; i += 4) {
-                if (imageData.data[i] < 128) { // Dark pixels
-                    shadowData.data[i] = 0; // Pure black
-                    shadowData.data[i + 1] = 0;
-                    shadowData.data[i + 2] = 0;
-                    shadowData.data[i + 3] = 255; // Full opacity
-                }
-            }
+            // Horizontal offset and perspective skew based on panel position
+            const offsetX = panel.x * panel.scale * 0.4;
+            const skewX = (panel.z / 30) * 15; // Perspective distortion
 
-            tempCtx.clearRect(0, 0, panelWidth, this.panelImage.height);
-            tempCtx.putImageData(shadowData, 0, 0);
+            // Apply subtle horizontal stretch
+            const stretchFactor = 1 + Math.abs(panel.x / 30) * 0.1;
 
-            // Draw shadow on wall - crisp, no blur
-            const shadowWidth = panelWidth * shadowScale;
-            const shadowHeight = this.panelImage.height * shadowScale;
-            const offsetX = panel.x * shadowScale * 0.3;
-
-            this.ctx.globalAlpha = 0.8;
             this.ctx.drawImage(
                 tempCanvas,
-                shadowX + offsetX - shadowWidth / 2,
+                shadowX + offsetX - (shadowWidth * stretchFactor) / 2 + skewX,
                 shadowY - shadowHeight / 2,
-                shadowWidth,
+                shadowWidth * stretchFactor,
                 shadowHeight
             );
+
+            this.ctx.restore();
         }
 
         this.ctx.restore();
@@ -531,20 +422,11 @@ class ZoetropeLantern {
     constructor() {
         this.panelCreator = new PanelCreator('draw-canvas');
         this.lanternRenderer = null;
-        this.currentMode = 'draw';
 
         this.init();
     }
 
     init() {
-        // Mode switching
-        document.querySelectorAll('.mode-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const mode = e.currentTarget.dataset.mode;
-                this.switchMode(mode);
-            });
-        });
-
         // Draw controls
         const brushSizeInput = document.getElementById('brush-size');
         const brushSizeValue = document.getElementById('brush-size-value');
@@ -560,13 +442,6 @@ class ZoetropeLantern {
             document.getElementById('canvas-instructions').classList.remove('hidden');
         });
 
-        // Generate controls
-        document.getElementById('generate-btn').addEventListener('click', () => {
-            const pattern = document.getElementById('pattern-type').value;
-            this.panelCreator.generatePattern(pattern);
-            document.getElementById('canvas-instructions').classList.add('hidden');
-        });
-
         // Build lantern
         document.getElementById('build-lantern-btn').addEventListener('click', () => {
             this.buildLantern();
@@ -578,29 +453,9 @@ class ZoetropeLantern {
         });
     }
 
-    switchMode(mode) {
-        this.currentMode = mode;
-
-        // Update buttons
-        document.querySelectorAll('.mode-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.mode === mode);
-        });
-
-        // Update control panels
-        document.querySelectorAll('.mode-controls').forEach(controls => {
-            controls.classList.remove('active');
-        });
-
-        if (mode === 'draw') {
-            document.getElementById('draw-controls').classList.add('active');
-        } else {
-            document.getElementById('generate-controls').classList.add('active');
-        }
-    }
-
     buildLantern() {
         if (!this.panelCreator.hasDrawn) {
-            alert('Please draw or generate a pattern first!');
+            alert('Please draw a pattern first!');
             return;
         }
 
