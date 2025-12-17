@@ -312,8 +312,8 @@ class LanternRenderer {
     }
 
     renderShadow() {
-        const shadowScale = 2.5;
-        const shadowX = this.wallX + 250;
+        const shadowScale = 2.0; // Adjusted for better proportion
+        const shadowX = this.wallX + 300; // More centered on wall
         const shadowY = this.canvas.height / 2;
 
         // Speed-based blur intensity
@@ -344,7 +344,7 @@ class LanternRenderer {
                     z,
                     opacity: Math.max(0.6, Math.min(0.8, opacity)),
                     color: shadowColor,
-                    scale: shadowScale + depthFactor * 0.2
+                    scale: shadowScale + depthFactor * 0.3
                 });
             }
         }
@@ -392,12 +392,12 @@ class LanternRenderer {
             const shadowWidth = tempCanvas.width * panel.scale;
             const shadowHeight = tempCanvas.height * panel.scale;
 
-            // Horizontal offset and perspective skew based on panel position
-            const offsetX = panel.x * panel.scale * 0.4;
-            const skewX = (panel.z / 30) * 15; // Perspective distortion
+            // Spread out shadows more - increased multiplier from 0.4 to 1.2
+            const offsetX = panel.x * panel.scale * 1.2;
+            const skewX = (panel.z / 30) * 20; // Increased perspective distortion
 
             // Apply subtle horizontal stretch
-            const stretchFactor = 1 + Math.abs(panel.x / 30) * 0.1;
+            const stretchFactor = 1 + Math.abs(panel.x / 30) * 0.15;
 
             this.ctx.drawImage(
                 tempCanvas,
