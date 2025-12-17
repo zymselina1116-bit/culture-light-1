@@ -129,7 +129,7 @@ class LanternRenderer {
         this.wallX = 0;
 
         // Lantern position (bottom-left)
-        this.lanternX = 80;
+        this.lanternX = 50;
         this.lanternY = 0;
 
         this.setupInteraction();
@@ -140,7 +140,7 @@ class LanternRenderer {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.wallX = this.canvas.width * this.splitRatio;
-        this.lanternY = this.canvas.height - 80; // Bottom position
+        this.lanternY = this.canvas.height - 70; // Bottom position
     }
 
     setupInteraction() {
