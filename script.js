@@ -268,7 +268,7 @@ class LanternRenderer {
         this.wallX = 0;
 
         // Lantern position (bottom-left)
-        this.lanternX = 120;
+        this.lanternX = 80;
         this.lanternY = 0;
 
         this.setupInteraction();
@@ -279,7 +279,7 @@ class LanternRenderer {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.wallX = this.canvas.width * this.splitRatio;
-        this.lanternY = this.canvas.height - 120; // Bottom position
+        this.lanternY = this.canvas.height - 80; // Bottom position
     }
 
     setupInteraction() {
@@ -312,7 +312,7 @@ class LanternRenderer {
         const dy = y - this.lanternY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < 100) { // Click within lantern area
+        if (distance < 60) { // Click within lantern area
             this.isDragging = true;
             this.lastMouseX = x;
             this.rotationVelocity = 0;
@@ -375,8 +375,8 @@ class LanternRenderer {
         this.ctx.save();
         this.ctx.translate(this.lanternX, this.lanternY);
 
-        const radius = 60;
-        const height = 100;
+        const radius = 30;
+        const height = 60;
 
         // Create panels array with depth
         const panels = [];
@@ -451,7 +451,7 @@ class LanternRenderer {
     }
 
     renderShadow() {
-        const shadowScale = 3.5; // Large shadow
+        const shadowScale = 2.5; // Large shadow
         const shadowX = this.wallX + 250;
         const shadowY = this.canvas.height / 2;
 
@@ -459,13 +459,13 @@ class LanternRenderer {
         const shadowPanels = [];
         for (let i = 0; i < this.panelCount; i++) {
             const angle = (i / this.panelCount) * Math.PI * 2 + this.rotation;
-            const z = Math.sin(angle) * 60;
+            const z = Math.sin(angle) * 30;
 
-            if (z > -30) { // Panel facing forward
+            if (z > -15) { // Panel facing forward
                 shadowPanels.push({
                     angle,
                     z,
-                    x: Math.cos(angle) * 60
+                    x: Math.cos(angle) * 30
                 });
             }
         }
