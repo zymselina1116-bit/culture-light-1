@@ -313,7 +313,7 @@ class LanternRenderer {
 
     renderShadow() {
         const shadowScale = 2.0; // Adjusted for better proportion
-        const shadowX = this.wallX + 300; // More centered on wall
+        const shadowX = this.canvas.width / 2; // Center of screen
         const shadowY = this.canvas.height / 2;
 
         // Speed-based blur intensity
