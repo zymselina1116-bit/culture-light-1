@@ -124,36 +124,25 @@ class PanelCreator {
         const cx = this.canvas.width / 2;
         const cy = this.canvas.height / 2;
 
-        // Head
         this.ctx.beginPath();
         this.ctx.arc(cx, cy - 100, 20, 0, Math.PI * 2);
         this.ctx.fill();
-
-        // Body
         this.ctx.fillRect(cx - 10, cy - 80, 20, 80);
-
-        // Left arm (raised)
         this.ctx.save();
         this.ctx.translate(cx - 10, cy - 60);
         this.ctx.rotate(-Math.PI / 3);
         this.ctx.fillRect(0, -5, 50, 10);
         this.ctx.restore();
-
-        // Right arm (down)
         this.ctx.save();
         this.ctx.translate(cx + 10, cy - 60);
         this.ctx.rotate(Math.PI / 4);
         this.ctx.fillRect(0, -5, 45, 10);
         this.ctx.restore();
-
-        // Left leg
         this.ctx.save();
         this.ctx.translate(cx - 10, cy);
         this.ctx.rotate(-Math.PI / 6);
         this.ctx.fillRect(-5, 0, 10, 60);
         this.ctx.restore();
-
-        // Right leg
         this.ctx.save();
         this.ctx.translate(cx + 10, cy);
         this.ctx.rotate(Math.PI / 6);
@@ -165,45 +154,22 @@ class PanelCreator {
         const cx = this.canvas.width / 2;
         const cy = this.canvas.height / 2;
 
-        // Body
         this.ctx.beginPath();
         this.ctx.ellipse(cx, cy, 30, 20, 0, 0, Math.PI * 2);
         this.ctx.fill();
-
-        // Head
         this.ctx.beginPath();
         this.ctx.arc(cx + 25, cy - 10, 15, 0, Math.PI * 2);
         this.ctx.fill();
-
-        // Beak
         this.ctx.beginPath();
         this.ctx.moveTo(cx + 38, cy - 10);
         this.ctx.lineTo(cx + 50, cy - 5);
         this.ctx.lineTo(cx + 38, cy - 5);
         this.ctx.closePath();
         this.ctx.fill();
-
-        // Left wing (up)
         this.ctx.beginPath();
         this.ctx.moveTo(cx - 5, cy);
         this.ctx.quadraticCurveTo(cx - 50, cy - 60, cx - 70, cy - 50);
         this.ctx.quadraticCurveTo(cx - 60, cy - 40, cx - 20, cy + 5);
-        this.ctx.closePath();
-        this.ctx.fill();
-
-        // Right wing (down)
-        this.ctx.beginPath();
-        this.ctx.moveTo(cx - 5, cy);
-        this.ctx.quadraticCurveTo(cx - 30, cy + 50, cx - 40, cy + 70);
-        this.ctx.quadraticCurveTo(cx - 30, cy + 60, cx - 10, cy + 10);
-        this.ctx.closePath();
-        this.ctx.fill();
-
-        // Tail
-        this.ctx.beginPath();
-        this.ctx.moveTo(cx - 30, cy + 5);
-        this.ctx.lineTo(cx - 50, cy + 20);
-        this.ctx.lineTo(cx - 30, cy + 15);
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -212,56 +178,33 @@ class PanelCreator {
         const cx = this.canvas.width / 2;
         const cy = this.canvas.height;
 
-        // Trunk
         this.ctx.fillRect(cx - 15, cy - 150, 30, 150);
-
-        // Branches
-        for (let i = 0; i < 5; i++) {
-            const branchY = cy - 150 + i * 30;
-            const branchLength = 40 + Math.random() * 30;
-            const angle = (Math.random() - 0.5) * Math.PI / 3;
-
-            this.ctx.save();
-            this.ctx.translate(cx, branchY);
-            this.ctx.rotate(angle);
-            this.ctx.fillRect(0, -5, branchLength, 10);
-            this.ctx.restore();
-        }
-
-        // Leaves
-        for (let i = 0; i < 15; i++) {
-            const leafX = cx + (Math.random() - 0.5) * 120;
-            const leafY = cy - 180 + Math.random() * 100;
-            const leafSize = 10 + Math.random() * 15;
-
-            this.ctx.beginPath();
-            this.ctx.ellipse(leafX, leafY, leafSize, leafSize * 1.5, Math.random() * Math.PI, 0, Math.PI * 2);
-            this.ctx.fill();
-        }
+        this.ctx.beginPath();
+        this.ctx.moveTo(cx, cy - 250);
+        this.ctx.lineTo(cx - 80, cy - 150);
+        this.ctx.lineTo(cx + 80, cy - 150);
+        this.ctx.closePath();
+        this.ctx.fill();
     }
 
     generateGeometric() {
         const cx = this.canvas.width / 2;
         const cy = this.canvas.height / 2;
 
-        // Concentric shapes
         for (let i = 0; i < 4; i++) {
             const size = 150 - i * 35;
             const sides = 3 + i;
-
             this.ctx.beginPath();
             for (let j = 0; j <= sides; j++) {
                 const angle = (j / sides) * Math.PI * 2 - Math.PI / 2;
                 const x = cx + Math.cos(angle) * size;
                 const y = cy + Math.sin(angle) * size;
-
                 if (j === 0) {
                     this.ctx.moveTo(x, y);
                 } else {
                     this.ctx.lineTo(x, y);
                 }
             }
-
             if (i % 2 === 0) {
                 this.ctx.fill();
             } else {
@@ -275,35 +218,19 @@ class PanelCreator {
         const cx = this.canvas.width / 2;
         const cy = this.canvas.height / 2;
 
-        // Random organic shapes
         for (let i = 0; i < 8; i++) {
             const startX = cx + (Math.random() - 0.5) * 200;
             const startY = cy + (Math.random() - 0.5) * 300;
-
             this.ctx.beginPath();
             this.ctx.moveTo(startX, startY);
-
             for (let j = 0; j < 5; j++) {
                 const cpX = startX + (Math.random() - 0.5) * 100;
                 const cpY = startY + (Math.random() - 0.5) * 100;
                 const endX = startX + (Math.random() - 0.5) * 80;
                 const endY = startY + (Math.random() - 0.5) * 80;
-
                 this.ctx.quadraticCurveTo(cpX, cpY, endX, endY);
             }
-
             this.ctx.closePath();
-            this.ctx.fill();
-        }
-
-        // Add some circles
-        for (let i = 0; i < 5; i++) {
-            const x = cx + (Math.random() - 0.5) * 180;
-            const y = cy + (Math.random() - 0.5) * 280;
-            const radius = 10 + Math.random() * 30;
-
-            this.ctx.beginPath();
-            this.ctx.arc(x, y, radius, 0, Math.PI * 2);
             this.ctx.fill();
         }
     }
@@ -315,311 +242,284 @@ class PanelCreator {
 
 
 // ========================================
-// LANTERN RENDERER MODULE
+// LANTERN RENDERER WITH DRAG INTERACTION
 // ========================================
 class LanternRenderer {
-    constructor(canvasId) {
+    constructor(canvasId, panelImage) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
+        this.panelImage = panelImage;
 
         this.resize();
         window.addEventListener('resize', () => this.resize());
 
         // Lantern properties
         this.rotation = 0;
-        this.rotationSpeed = 0.3;
+        this.rotationVelocity = 0;
         this.panelCount = 8;
-        this.lanternSize = 1.0;
-        this.lightIntensity = 0.8;
-        this.lightOn = true;
+        this.lanternSize = 200; // Fixed 200px width
 
-        // Panel image
-        this.panelImage = null;
+        // Drag interaction
+        this.isDragging = false;
+        this.lastMouseX = 0;
 
-        // Geometry
-        this.centerX = 0;
-        this.centerY = 0;
-        this.lanternRadius = 120;
-        this.lanternHeight = 180;
+        // Split layout
+        this.splitRatio = 0.3; // 30% left dark, 70% right white
+        this.wallX = 0;
 
-        this.animationFrame = null;
+        // Lantern position (bottom-left)
+        this.lanternX = 120;
+        this.lanternY = 0;
+
+        this.setupInteraction();
+        this.animate();
     }
 
     resize() {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
-        this.centerX = this.canvas.width / 2;
-        this.centerY = this.canvas.height / 2;
+        this.wallX = this.canvas.width * this.splitRatio;
+        this.lanternY = this.canvas.height - 120; // Bottom position
     }
 
-    setPanelImage(imageData) {
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = imageData.width;
-        tempCanvas.height = imageData.height;
-        const tempCtx = tempCanvas.getContext('2d');
-        tempCtx.putImageData(imageData, 0, 0);
+    setupInteraction() {
+        this.canvas.addEventListener('mousedown', (e) => this.handleMouseDown(e));
+        window.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+        window.addEventListener('mouseup', () => this.handleMouseUp());
 
-        this.panelImage = tempCanvas;
+        this.canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            this.handleMouseDown({clientX: touch.clientX, clientY: touch.clientY});
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            this.handleMouseMove({clientX: touch.clientX, clientY: touch.clientY});
+        });
+
+        window.addEventListener('touchend', () => this.handleMouseUp());
     }
 
-    setRotationSpeed(speed) {
-        this.rotationSpeed = speed / 100 * 1.5;
-    }
+    handleMouseDown(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-    setLanternSize(size) {
-        this.lanternSize = size / 100;
-    }
+        // Check if click is on lantern area
+        const dx = x - this.lanternX;
+        const dy = y - this.lanternY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-    setLightIntensity(intensity) {
-        this.lightIntensity = intensity / 100;
-    }
-
-    setPanelCount(count) {
-        this.panelCount = count;
-    }
-
-    setLightOn(on) {
-        this.lightOn = on;
-    }
-
-    start() {
-        const animate = () => {
-            this.rotation += this.rotationSpeed * 0.01;
-            this.render();
-            this.animationFrame = requestAnimationFrame(animate);
-        };
-        animate();
-    }
-
-    stop() {
-        if (this.animationFrame) {
-            cancelAnimationFrame(this.animationFrame);
+        if (distance < 100) { // Click within lantern area
+            this.isDragging = true;
+            this.lastMouseX = x;
+            this.rotationVelocity = 0;
         }
+    }
+
+    handleMouseMove(e) {
+        if (!this.isDragging) return;
+
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+
+        const deltaX = x - this.lastMouseX;
+        this.rotationVelocity = deltaX * 0.02; // Drag speed determines rotation
+        this.rotation += this.rotationVelocity;
+
+        this.lastMouseX = x;
+    }
+
+    handleMouseUp() {
+        this.isDragging = false;
+    }
+
+    animate() {
+        // Apply friction/ease-out when not dragging
+        if (!this.isDragging) {
+            this.rotation += this.rotationVelocity;
+            this.rotationVelocity *= 0.95; // Friction
+
+            if (Math.abs(this.rotationVelocity) < 0.001) {
+                this.rotationVelocity = 0;
+            }
+        }
+
+        this.render();
+        requestAnimationFrame(() => this.animate());
     }
 
     render() {
         // Clear canvas
-        this.ctx.fillStyle = '#1B1B1B';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        if (!this.panelImage) return;
+        // Draw split background
+        // Left 30% - dark
+        this.ctx.fillStyle = '#1A1A1A';
+        this.ctx.fillRect(0, 0, this.wallX, this.canvas.height);
 
-        const radius = this.lanternRadius * this.lanternSize;
-        const height = this.lanternHeight * this.lanternSize;
-        const topY = this.centerY - height / 2;
-        const bottomY = this.centerY + height / 2;
+        // Right 70% - white wall
+        this.ctx.fillStyle = '#FFFFFF';
+        this.ctx.fillRect(this.wallX, 0, this.canvas.width - this.wallX, this.canvas.height);
 
-        // Light source position
-        const lightX = this.centerX - 200;
-        const lightY = this.centerY;
+        // Draw shadow on white wall
+        this.renderShadow();
 
-        // Draw shadow on back wall first
-        if (this.lightOn) {
-            this.renderShadow(lightX, lightY, radius, height, topY, bottomY);
-        }
-
-        // Draw light glow
-        if (this.lightOn) {
-            const gradient = this.ctx.createRadialGradient(lightX, lightY, 0, lightX, lightY, 80 * this.lightIntensity);
-            gradient.addColorStop(0, `rgba(248, 220, 166, ${0.6 * this.lightIntensity})`);
-            gradient.addColorStop(0.5, `rgba(248, 220, 166, ${0.2 * this.lightIntensity})`);
-            gradient.addColorStop(1, 'rgba(248, 220, 166, 0)');
-
-            this.ctx.fillStyle = gradient;
-            this.ctx.fillRect(lightX - 100, lightY - 100, 200, 200);
-        }
-
-        // Render lantern panels
-        this.renderLantern(radius, height, topY, bottomY);
+        // Draw lantern in bottom-left
+        this.renderLantern();
     }
 
-    renderLantern(radius, height, topY, bottomY) {
-        // Create array of panels with their Z-depth for sorting
-        const panels = [];
+    renderLantern() {
+        this.ctx.save();
+        this.ctx.translate(this.lanternX, this.lanternY);
 
+        const radius = 60;
+        const height = 100;
+
+        // Create panels array with depth
+        const panels = [];
         for (let i = 0; i < this.panelCount; i++) {
             const angle = (i / this.panelCount) * Math.PI * 2 + this.rotation;
             const nextAngle = ((i + 1) / this.panelCount) * Math.PI * 2 + this.rotation;
 
-            const x1 = this.centerX + Math.cos(angle) * radius;
+            const x1 = Math.cos(angle) * radius;
             const z1 = Math.sin(angle) * radius;
-            const x2 = this.centerX + Math.cos(nextAngle) * radius;
+            const x2 = Math.cos(nextAngle) * radius;
             const z2 = Math.sin(nextAngle) * radius;
-
-            // Average Z for sorting
-            const avgZ = (z1 + z2) / 2;
 
             panels.push({
                 x1, z1, x2, z2,
-                topY, bottomY,
-                avgZ,
-                angle
+                avgZ: (z1 + z2) / 2,
+                index: i
             });
         }
 
-        // Sort panels back-to-front
+        // Sort back to front
         panels.sort((a, b) => a.avgZ - b.avgZ);
 
         // Draw panels
         for (const panel of panels) {
-            this.renderPanel(panel);
+            this.renderPanel(panel, height, radius);
         }
-    }
-
-    renderPanel(panel) {
-        const { x1, z1, x2, z2, topY, bottomY } = panel;
-
-        // Draw panel quad
-        this.ctx.save();
-
-        // Create clipping path for the panel
-        this.ctx.beginPath();
-        this.ctx.moveTo(x1, topY);
-        this.ctx.lineTo(x2, topY);
-        this.ctx.lineTo(x2, bottomY);
-        this.ctx.lineTo(x1, bottomY);
-        this.ctx.closePath();
-        this.ctx.clip();
-
-        // Calculate lighting
-        const normalAngle = Math.atan2(z1 + z2, -(x1 - this.centerX + x2 - this.centerX));
-        const lightAngle = Math.PI;
-        const brightness = this.lightOn ?
-            Math.max(0.3, Math.cos(normalAngle - lightAngle) * 0.5 + 0.5) : 0.3;
-
-        // Draw panel image
-        if (this.panelImage) {
-            this.ctx.globalAlpha = brightness;
-
-            // Calculate panel width for texture mapping
-            const panelWidth = Math.abs(x2 - x1);
-
-            // Draw stretched panel texture
-            this.ctx.drawImage(
-                this.panelImage,
-                Math.min(x1, x2), topY,
-                panelWidth, bottomY - topY
-            );
-
-            this.ctx.globalAlpha = 1;
-        }
-
-        // Draw panel outline
-        this.ctx.strokeStyle = `rgba(100, 100, 100, ${brightness})`;
-        this.ctx.lineWidth = 1;
-        this.ctx.beginPath();
-        this.ctx.moveTo(x1, topY);
-        this.ctx.lineTo(x2, topY);
-        this.ctx.lineTo(x2, bottomY);
-        this.ctx.lineTo(x1, bottomY);
-        this.ctx.closePath();
-        this.ctx.stroke();
 
         this.ctx.restore();
     }
 
-    renderShadow(lightX, lightY, radius, height, topY, bottomY) {
-        // Shadow wall position (far right)
-        const wallX = this.canvas.width - 100;
+    renderPanel(panel, height, radius) {
+        const {x1, z1, x2, z2} = panel;
+        const y1 = -height / 2;
+        const y2 = height / 2;
 
-        // Find the current front panel for shadow
+        // Panel brightness based on angle
+        const avgZ = (z1 + z2) / 2;
+        const brightness = Math.max(0.3, (avgZ + radius) / (radius * 2));
+
+        // Draw panel outline
+        this.ctx.strokeStyle = `rgba(180, 180, 180, ${brightness})`;
+        this.ctx.lineWidth = 1;
+        this.ctx.beginPath();
+        this.ctx.moveTo(x1, y1);
+        this.ctx.lineTo(x2, y1);
+        this.ctx.lineTo(x2, y2);
+        this.ctx.lineTo(x1, y2);
+        this.ctx.closePath();
+        this.ctx.stroke();
+
+        // Draw panel texture if facing forward
+        if (avgZ > 0) {
+            this.ctx.save();
+            this.ctx.beginPath();
+            this.ctx.moveTo(x1, y1);
+            this.ctx.lineTo(x2, y1);
+            this.ctx.lineTo(x2, y2);
+            this.ctx.lineTo(x1, y2);
+            this.ctx.closePath();
+            this.ctx.clip();
+
+            const panelWidth = Math.abs(x2 - x1);
+            this.ctx.globalAlpha = brightness * 0.6;
+            this.ctx.drawImage(
+                this.panelImage,
+                Math.min(x1, x2), y1,
+                panelWidth, height
+            );
+
+            this.ctx.restore();
+        }
+    }
+
+    renderShadow() {
+        const shadowScale = 3.5; // Large shadow
+        const shadowX = this.wallX + 250;
+        const shadowY = this.canvas.height / 2;
+
+        // Collect visible panels
         const shadowPanels = [];
-
         for (let i = 0; i < this.panelCount; i++) {
             const angle = (i / this.panelCount) * Math.PI * 2 + this.rotation;
-            const nextAngle = ((i + 1) / this.panelCount) * Math.PI * 2 + this.rotation;
+            const z = Math.sin(angle) * 60;
 
-            const x1 = this.centerX + Math.cos(angle) * radius;
-            const z1 = Math.sin(angle) * radius;
-            const x2 = this.centerX + Math.cos(nextAngle) * radius;
-            const z2 = Math.sin(nextAngle) * radius;
-
-            // Only shadow panels facing the wall (positive Z)
-            if (z1 > 0 || z2 > 0) {
-                shadowPanels.push({ x1, x2, topY, bottomY, angle, i });
+            if (z > -30) { // Panel facing forward
+                shadowPanels.push({
+                    angle,
+                    z,
+                    x: Math.cos(angle) * 60
+                });
             }
         }
 
-        // Draw shadow for visible panels
+        // Draw crisp black shadows
         this.ctx.save();
-        this.ctx.globalAlpha = 0.7 * this.lightIntensity;
 
         for (const panel of shadowPanels) {
-            // Project shadow onto wall
-            const shadowTop1 = this.projectShadow(lightX, lightY, panel.x1, panel.topY, wallX);
-            const shadowBottom1 = this.projectShadow(lightX, lightY, panel.x1, panel.bottomY, wallX);
-            const shadowTop2 = this.projectShadow(lightX, lightY, panel.x2, panel.topY, wallX);
-            const shadowBottom2 = this.projectShadow(lightX, lightY, panel.x2, panel.bottomY, wallX);
-
-            // Draw shadow with panel silhouette
+            // Create shadow from panel image
             const tempCanvas = document.createElement('canvas');
             const panelWidth = this.panelImage.width / this.panelCount;
             tempCanvas.width = panelWidth;
             tempCanvas.height = this.panelImage.height;
             const tempCtx = tempCanvas.getContext('2d');
 
-            // Extract this panel's portion
+            // Extract panel portion
             tempCtx.drawImage(
                 this.panelImage,
-                panel.i * panelWidth, 0, panelWidth, this.panelImage.height,
+                0, 0, this.panelImage.width, this.panelImage.height,
                 0, 0, panelWidth, this.panelImage.height
             );
 
-            // Get image data and create shadow
+            // Convert to pure black silhouette
             const imageData = tempCtx.getImageData(0, 0, panelWidth, this.panelImage.height);
-            const shadowCanvas = document.createElement('canvas');
-            shadowCanvas.width = panelWidth;
-            shadowCanvas.height = this.panelImage.height;
-            const shadowCtx = shadowCanvas.getContext('2d');
-            const shadowImageData = shadowCtx.createImageData(panelWidth, this.panelImage.height);
+            const shadowData = tempCtx.createImageData(panelWidth, this.panelImage.height);
 
-            // Convert to black silhouette
             for (let i = 0; i < imageData.data.length; i += 4) {
-                const alpha = imageData.data[i + 3];
-                if (imageData.data[i] < 128) { // Dark pixels become shadow
-                    shadowImageData.data[i] = 0;
-                    shadowImageData.data[i + 1] = 0;
-                    shadowImageData.data[i + 2] = 0;
-                    shadowImageData.data[i + 3] = 255;
+                if (imageData.data[i] < 128) { // Dark pixels
+                    shadowData.data[i] = 0; // Pure black
+                    shadowData.data[i + 1] = 0;
+                    shadowData.data[i + 2] = 0;
+                    shadowData.data[i + 3] = 255; // Full opacity
                 }
             }
 
-            shadowCtx.putImageData(shadowImageData, 0, 0);
+            tempCtx.clearRect(0, 0, panelWidth, this.panelImage.height);
+            tempCtx.putImageData(shadowData, 0, 0);
 
-            // Draw projected shadow
-            this.ctx.save();
+            // Draw shadow on wall - crisp, no blur
+            const shadowWidth = panelWidth * shadowScale;
+            const shadowHeight = this.panelImage.height * shadowScale;
+            const offsetX = panel.x * shadowScale * 0.3;
 
-            // Create transform for shadow projection
-            const shadowWidth = Math.abs(shadowTop2.y - shadowTop1.y);
-            const shadowHeight = Math.abs(shadowBottom1.y - shadowTop1.y);
-
-            if (shadowWidth > 0 && shadowHeight > 0) {
-                this.ctx.filter = `blur(${2 + this.lightIntensity * 3}px)`;
-                this.ctx.drawImage(
-                    shadowCanvas,
-                    wallX - shadowWidth / 2,
-                    Math.min(shadowTop1.y, shadowTop2.y),
-                    shadowWidth,
-                    shadowHeight
-                );
-            }
-
-            this.ctx.restore();
+            this.ctx.globalAlpha = 0.8;
+            this.ctx.drawImage(
+                tempCanvas,
+                shadowX + offsetX - shadowWidth / 2,
+                shadowY - shadowHeight / 2,
+                shadowWidth,
+                shadowHeight
+            );
         }
 
         this.ctx.restore();
-    }
-
-    projectShadow(lightX, lightY, objX, objY, wallX) {
-        // Calculate shadow projection using similar triangles
-        const dx = objX - lightX;
-        const dy = objY - lightY;
-        const t = (wallX - lightX) / dx;
-
-        return {
-            x: wallX,
-            y: lightY + dy * t
-        };
     }
 }
 
@@ -631,7 +531,6 @@ class ZoetropeLantern {
     constructor() {
         this.panelCreator = new PanelCreator('draw-canvas');
         this.lanternRenderer = null;
-
         this.currentMode = 'draw';
 
         this.init();
@@ -677,14 +576,6 @@ class ZoetropeLantern {
         this.panelCreator.canvas.addEventListener('mousedown', () => {
             document.getElementById('canvas-instructions').classList.add('hidden');
         });
-
-        // Back to creator
-        document.getElementById('back-to-creator').addEventListener('click', () => {
-            this.showCreator();
-        });
-
-        // Lantern controls
-        this.setupLanternControls();
     }
 
     switchMode(mode) {
@@ -713,92 +604,25 @@ class ZoetropeLantern {
             return;
         }
 
-        // Get panel image data
         const imageData = this.panelCreator.getImageData();
 
-        // Initialize lantern renderer
-        if (!this.lanternRenderer) {
-            this.lanternRenderer = new LanternRenderer('lantern-canvas');
-        }
+        // Create canvas from image data
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = imageData.width;
+        tempCanvas.height = imageData.height;
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCtx.putImageData(imageData, 0, 0);
 
-        this.lanternRenderer.setPanelImage(imageData);
-        this.lanternRenderer.start();
+        // Initialize lantern renderer
+        this.lanternRenderer = new LanternRenderer('lantern-canvas', tempCanvas);
 
         // Switch screens
         document.getElementById('creator-screen').classList.remove('active');
         document.getElementById('lantern-screen').classList.add('active');
     }
-
-    showCreator() {
-        if (this.lanternRenderer) {
-            this.lanternRenderer.stop();
-        }
-
-        document.getElementById('lantern-screen').classList.remove('active');
-        document.getElementById('creator-screen').classList.add('active');
-    }
-
-    setupLanternControls() {
-        // Rotation speed
-        const rotationSpeed = document.getElementById('rotation-speed');
-        const rotationSpeedValue = document.getElementById('rotation-speed-value');
-
-        rotationSpeed.addEventListener('input', (e) => {
-            const value = e.target.value;
-            rotationSpeedValue.textContent = value;
-            if (this.lanternRenderer) {
-                this.lanternRenderer.setRotationSpeed(value);
-            }
-        });
-
-        // Lantern size
-        const lanternSize = document.getElementById('lantern-size');
-        const lanternSizeValue = document.getElementById('lantern-size-value');
-
-        lanternSize.addEventListener('input', (e) => {
-            const value = e.target.value;
-            lanternSizeValue.textContent = value + '%';
-            if (this.lanternRenderer) {
-                this.lanternRenderer.setLanternSize(value);
-            }
-        });
-
-        // Light intensity
-        const lightIntensity = document.getElementById('light-intensity');
-        const lightIntensityValue = document.getElementById('light-intensity-value');
-
-        lightIntensity.addEventListener('input', (e) => {
-            const value = e.target.value;
-            lightIntensityValue.textContent = value + '%';
-            if (this.lanternRenderer) {
-                this.lanternRenderer.setLightIntensity(value);
-            }
-        });
-
-        // Panel count
-        const panelCount = document.getElementById('panel-count');
-        const panelCountValue = document.getElementById('panel-count-value');
-
-        panelCount.addEventListener('input', (e) => {
-            const value = e.target.value;
-            panelCountValue.textContent = value;
-            if (this.lanternRenderer) {
-                this.lanternRenderer.setPanelCount(parseInt(value));
-            }
-        });
-
-        // Light toggle
-        const lightToggle = document.getElementById('light-toggle');
-
-        lightToggle.addEventListener('change', (e) => {
-            if (this.lanternRenderer) {
-                this.lanternRenderer.setLightOn(e.target.checked);
-            }
-        });
-    }
 }
 
-// Initialize app when DOM is ready
+// Initialize app
 document.addEventListener('DOMContentLoaded', () => {
     new ZoetropeLantern();
 });
